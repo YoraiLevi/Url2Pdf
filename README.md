@@ -1,4 +1,13 @@
+How to use:
+1) Download and Install:
 
+> yarn: https://classic.yarnpkg.com/en/docs/install/
+
+> nodejs: https://nodejs.org/en/download/
+
+> git: https://git-scm.com/downloads
+
+2) Run ( the '> ' denotes a command)
 ```
 > git clone https://github.com/YoraiLevi/Url2Pdf 
 > cd Url2Pdf
