@@ -1,0 +1,15 @@
+{
+  "name": "UrlAsPdf",
+  "version": "1.0.0",
+  "description": "Download web page(s) as is as pdf automatically",
+  "main": "index.js",
+  "repository": "https://github.com/YoraiLevi/UrlasPdf",
+  "author": "Yorai Levi",
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "mkdirp": "^1.0.3",
+    "puppeteer": "^2.1.1",
+    "yesno": "^0.3.1"
+  }
+}
