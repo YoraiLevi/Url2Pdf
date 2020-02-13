@@ -8,24 +8,54 @@
  */
 
 const commandLineArgs = require('command-line-args');
+const commandLineUsage = require('command-line-usage');
 const mkdirp = require('mkdirp');
 const yesno = require('yesno');
 const puppeteer = require('puppeteer');
 const path = require('path');
 
-
+// Constants
 DEFAULT_OUT = './out';
 DEFAULT_TIMEOUT = 3 * 60 * 1000;
+
+// Config setup
 const optionDefinitions = [
-  {name: 'verbose', alias: 'v', type: Boolean, multiple: true, defaultValue: []},
-  {name: 'silent', alias: 's', type: Boolean, multiple: true, defaultValue: []},
-  {name: 'mute', alias: 'm', type: Boolean, multiple: false, defaultValue: false},
-  {name: 'urls', type: String, alias: 'u', multiple: true, defaultOption: true, defaultValue: []},
-  {name: 'out', type: String, alias: 'o', defaultValue: DEFAULT_OUT},
-  {name: 'timeout', alias: 't', type: Number, defaultValue: DEFAULT_TIMEOUT},
-  {name: 'autoAccept', alias: 'y', type: Boolean, defaultValue: false},
+  {name: 'help', alias: 'h', type: Boolean, defaultValue: false, description: 'Shows this message'},
+  {name: 'verbose', alias: 'v', type: Boolean, multiple: true, defaultValue: [], description: 'Adds verbosity level'},
+  {name: 'silent', alias: 's', type: Boolean, multiple: true, defaultValue: [], description: 'Removes verbosity level'},
+  {name: 'mute', alias: 'm', type: Boolean, multiple: false, defaultValue: false, description: 'Mutes all info'},
+  {name: 'urls', type: String, alias: 'u', multiple: true, defaultOption: true, defaultValue: [], description: 'Urls to crawl into pdfs'},
+  {name: 'out', type: String, alias: 'o', defaultValue: DEFAULT_OUT, description: 'Output directory path'},
+  {name: 'timeout', alias: 't', type: Number, defaultValue: DEFAULT_TIMEOUT, description: 'Timeout for crawling.'},
+  {name: 'autoAccept', alias: 'y', type: Boolean, defaultValue: false, description: 'Auto accepts all prompts'},
+];
+const banner =
+`                                                             
+888     888         888  .d8888b.  8888888b.      888  .d888 
+888     888         888 d88P  Y88b 888   Y88b     888 d88P"  
+888     888         888        888 888    888     888 888    
+888     888 888d888 888      .d88P 888   d88P .d88888 888888 
+888     888 888P"   888  .od888P"  8888888P" d88" 888 888    
+888     888 888     888 d88P"      888       888  888 888    
+Y88b. .d88P 888     888 888"       888       Y88b 888 888    
+ "Y88888P"  888     888 888888888  888        "Y88888 888    `;
+const sections = [
+  {
+    header: banner,
+    content: 'Render web-pages to pdf',
+    raw: true,
+  },
+  {
+    header: 'Options',
+    optionList: optionDefinitions,
+  },
 ];
 const options = commandLineArgs(optionDefinitions);
+const usage = commandLineUsage(sections);
+if (options.help||options.urls.length==0) {
+  console.log(usage);
+  process.exit();
+}
 options['out'] = options['out'] || DEFAULT_OUT;
 options['out'] = path.resolve(options['out']);
 options['verbose'] = options['silent'].length >= 1 ? [] : options['verbose'];
@@ -36,6 +66,7 @@ const log = (...args) => {
     console.log(...args);
   }
 };
+// Logging setup
 const info = (...args) => {
   if (printLevel >= 1) {
     console.info(...args);

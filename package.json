@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.0",
     "mkdirp": "^1.0.3",
     "puppeteer": "^2.1.1",
     "yesno": "^0.3.1"
